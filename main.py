@@ -194,16 +194,14 @@ with tab3:
 
 
     if plot_female:
-        category  = "Female"
         top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
         sns.barplot(data=top_female, x='count', y='name')
 
     if plot_male:
-        category = "Male"
         top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
         sns.barplot(data=top_male, x='count', y='name')
 
-    plt.title(f"Top 10 {category} Names in {year_of_interest}")
+    plt.title(f"Top 10 Names in {year_of_interest}")
     plt.xlabel('Count')
     plt.ylabel('Name')
     plt.tight_layout()
