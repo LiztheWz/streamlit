@@ -184,29 +184,34 @@ with tab3:
 
     # write a year
     yoi = st.text_input('Enter a year')
+    plot_female = st.checkbox('Female Plot')
+    plot_male = st.checkbox('Male Plot')
+    
+    name_df = df[df['name']==noi]
     year_of_interest = yoi
-
-
     top_names = df[df['year'] == year_of_interest]
-    top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
 
-    # female plot
-    plt.figure(figsize=(10,5))
-    sns.barplot(data=top_female, x='count', y='name')
-    plt.title(f"Top 10 Female Names in {year_of_interest}")
-    plt.xlabel('Count')
-    plt.ylabel('Name')
-    plt.tight_layout()
-    plt.show()
+    #fig = plt.figure(figsize=(15, 8))
 
 
-    top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
+    if plot_female:
+        top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
 
-    # male plot
-    plt.figure(figsize=(10,5))
-    sns.barplot(data=top_male, x='count', y='name')
-    plt.title(f"Top 10 Male Names in {year_of_interest}")
-    plt.xlabel('Count')
-    plt.ylabel('Name')
-    plt.tight_layout()
-    plt.show()
+        plt.figure(figsize=(10,5))
+        sns.barplot(data=top_female, x='count', y='name')
+        plt.title(f"Top 10 Female Names in {year_of_interest}")
+        plt.xlabel('Count')
+        plt.ylabel('Name')
+        plt.tight_layout()
+        plt.show()
+
+    if plot_male:
+        top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
+
+        plt.figure(figsize=(10,5))
+        sns.barplot(data=top_male, x='count', y='name')
+        plt.title(f"Top 10 Male Names in {year_of_interest}")
+        plt.xlabel('Count')
+        plt.ylabel('Name')
+        plt.tight_layout()
+        plt.show()
