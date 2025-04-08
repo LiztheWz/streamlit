@@ -108,7 +108,7 @@ st.title('My Name App')
 tab1, tab2, tab3 = st.tabs(['Overall', 'By Name', 'By Year'])
 
 with tab1:
-    st.write('Stuff')
+    #st.write('Stuff')
     # noi = st.text_input('Enter a name')
     # name_data = df[df['name'] == noi]
     # sex_counts = name_data.groupby('sex').sum()['count']
@@ -151,6 +151,44 @@ with tab1:
     #             fontsize=20)
     #     plt.title(f"Sex Balance of the '{noi}' (over all years)")
     #     plt.show()
+    st.write('Overall Gender Balance') 
+
+    # Input name
+    noi = st.text_input('Enter a name')
+    if noi:
+        name_data = df[df['name'] == noi]
+        sex_counts = name_data.groupby('sex').sum()['count']
+        male_count = sex_counts.get('M', 0)
+        female_count = sex_counts.get('F', 0)
+        total_count = male_count + female_count
+
+        if total_count > 0:
+            male_ratio = male_count / total_count
+            female_ratio = female_count / total_count
+
+            fig, ax = plt.subplots(figsize=(10, 2))
+
+            # Create a stacked bar representing male and female ratios
+            ax.barh(0, male_ratio, label='Male', color='blue')
+            ax.barh(0, female_ratio, left=male_ratio, label='Female', color='pink')
+
+            # Customize the chart
+            ax.set_xlim(0, 1)
+            ax.set_xticks([0, 0.5, 1])
+            ax.set_xticklabels(['0%', '50%', '100%'])
+            ax.set_yticks([])  # Hide y-axis ticks
+
+            # Add labels to display the ratios
+            ax.text(male_ratio / 2, 0, f"{male_ratio * 100:.1f}%", va='center',
+                    ha='center', color='white', fontweight='bold', fontsize=20)
+            ax.text(male_ratio / 2, -.25, "male", va='center',
+                    ha='center', color='white', fontweight='bold', fontsize=20)
+            ax.text(male_ratio + female_ratio / 2, 0, f"{female_ratio * 100:.1f}%", va='center',
+                    ha='center', color='white', fontweight='bold', fontsize=20)
+            ax.text(male_ratio + female_ratio / 2, -.25, "female", va='center',
+                    ha='center', color='white', fontweight='bold', fontsize=20)
+            plt.title(f"Sex Balance of the '{noi}' (over all years)")
+            st.pyplot(fig)
 
 with tab2:
     st.write('Name')
@@ -187,7 +225,7 @@ with tab3:
     plot_female = st.checkbox('Female Plot')
     plot_male = st.checkbox('Male Plot')
 
-    year_of_interest = yoi
+    year_of_interest = int(yoi)
     top_names = df[df['year'] == year_of_interest]
 
     fig = plt.figure(figsize=(10,5))
