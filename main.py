@@ -191,7 +191,7 @@ with tab3:
     year_of_interest = yoi
     top_names = df[df['year'] == year_of_interest]
 
-    #fig = plt.figure(figsize=(15, 8))
+    fig = plt.figure(figsize=(15, 8))
 
 
     if plot_female:
@@ -203,7 +203,7 @@ with tab3:
         plt.xlabel('Count')
         plt.ylabel('Name')
         plt.tight_layout()
-        plt.show()
+        st.pyplot(fig)
 
     if plot_male:
         top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
@@ -214,4 +214,4 @@ with tab3:
         plt.xlabel('Count')
         plt.ylabel('Name')
         plt.tight_layout()
-        plt.show()
+        st.pyplot(fig)
