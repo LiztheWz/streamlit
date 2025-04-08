@@ -33,54 +33,10 @@ df['total_births'] = df.groupby(['year', 'sex'])['count'].transform('sum')
 df['prop'] = df['count'] / df['total_births']
 st.title('My Name App')
 
-tab1, tab2, tab3 = st.tabs(['Overall', 'By Name', 'By Year'])
+tab1, tab2 = st.tabs(['By Name', 'By Year'])
+
 
 with tab1:
-    st.write('Stuff')
-    # noi = st.text_input('Enter a name')
-    # name_data = df[df['name'] == noi]
-    # sex_counts = name_data.groupby('sex').sum()['count']
-    # male_count = sex_counts.get('M', 0)
-    # female_count = sex_counts.get('F', 0)
-    # total_count = male_count + female_count
-
-    # if total_count > 0:
-    #     male_ratio = male_count / total_count
-    #     female_ratio = female_count / total_count
-
-    #     fig, ax = plt.subplots(figsize=(10, 2))
-
-    #     # Create a stacked bar representing male and female ratios
-    #     ax.barh(0, male_ratio,  label='Male')
-    #     ax.barh(0, female_ratio, left=male_ratio,  label='Female')
-
-    #     # Customize the chart
-    #     ax.set_xlim(0, 1)
-    #     ax.set_xticks([0, 0.5, 1])
-    #     ax.set_xticklabels(['0%', '50%', '100%'])
-    #     ax.set_yticks([])  # Hide y-axis ticks
-
-    #     # Add labels to display the ratios
-    #     ax.text(male_ratio / 2, 0, f"{male_ratio * 100:.1f}%", va='center', 
-    #             ha='center', color='white', 
-    #             fontweight='bold',
-    #             fontsize=20)
-    #     ax.text(male_ratio / 2, -.25, "male", va='center', 
-    #             ha='center', color='white', 
-    #             fontweight='bold',
-    #             fontsize=20)
-    #     ax.text(male_ratio + female_ratio / 2, 0, f"{female_ratio * 100:.1f}%", va='center', 
-    #             ha='center', color='white', 
-    #             fontweight='bold',
-    #             fontsize=20)
-    #     ax.text(male_ratio + female_ratio / 2, -.25, "female", va='center', 
-    #             ha='center', color='white', 
-    #             fontweight='bold',
-    #             fontsize=20)
-    #     plt.title(f"Sex Balance of the '{noi}' (over all years)")
-    #     plt.show()
-
-with tab2:
     st.write('Name')
 
     # pick a name
@@ -107,13 +63,13 @@ with tab2:
 
     st.pyplot(fig)
 
-with tab3:
+with tab2:
     st.write('Year')
 
     # write a year
     yoi = st.text_input('Enter a year')
-    plot_female = st.checkbox('Top 10 Female Names')
-    plot_male = st.checkbox('Top 10 Male Names')
+    selected_option = st.radio("Select an option", ["Top 10 Female Names", "Top 10 Male Names"])
+
 
     year_of_interest = int(yoi)
     top_names = df[df['year'] == year_of_interest]
@@ -121,11 +77,11 @@ with tab3:
     fig = plt.figure(figsize=(10,5))
 
 
-    if plot_female:
+    if selected_option == "Top 10 Female Names":
         top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
         sns.barplot(data=top_female, x='count', y='name')
 
-    if plot_male:
+    elif selected_option == "Top 10 Male Names":
         top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
         sns.barplot(data=top_male, x='count', y='name')
 
@@ -133,4 +89,5 @@ with tab3:
     plt.xlabel('Count')
     plt.ylabel('Name')
     plt.tight_layout()
+
     st.pyplot(fig)
