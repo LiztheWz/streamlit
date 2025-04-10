@@ -73,23 +73,24 @@ with tab2:
     try:
         year_of_interest = int(yoi)
         top_names = df[df['year'] == year_of_interest]
+
+        fig = plt.figure(figsize=(10,5))
+
+
+        if selected_option == "Top 10 Female Names":
+            top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
+            sns.barplot(data=top_female, x='count', y='name')
+
+        elif selected_option == "Top 10 Male Names":
+            top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
+            sns.barplot(data=top_male, x='count', y='name')
+
+        plt.title(f"Top 10 Names in {year_of_interest}")
+        plt.xlabel('Count')
+        plt.ylabel('Name')
+        plt.tight_layout()
+
+        st.pyplot(fig)
     except:
         print("Invalid year. Please try again.")
 
-    fig = plt.figure(figsize=(10,5))
-
-
-    if selected_option == "Top 10 Female Names":
-        top_female = top_names[top_names['sex'] == 'F'].nlargest(10, 'count')
-        sns.barplot(data=top_female, x='count', y='name')
-
-    elif selected_option == "Top 10 Male Names":
-        top_male = top_names[top_names['sex'] == 'M'].nlargest(10, 'count')
-        sns.barplot(data=top_male, x='count', y='name')
-
-    plt.title(f"Top 10 Names in {year_of_interest}")
-    plt.xlabel('Count')
-    plt.ylabel('Name')
-    plt.tight_layout()
-
-    st.pyplot(fig)
