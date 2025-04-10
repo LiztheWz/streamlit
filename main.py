@@ -70,9 +70,11 @@ with tab2:
     yoi = st.text_input('Enter a year')
     selected_option = st.radio("Select an option", ["Top 10 Female Names", "Top 10 Male Names"])
 
-
-    year_of_interest = int(yoi)
-    top_names = df[df['year'] == year_of_interest]
+    try:
+        year_of_interest = int(yoi)
+        top_names = df[df['year'] == year_of_interest]
+    except:
+        print("Invalid year. Please try again.")
 
     fig = plt.figure(figsize=(10,5))
 
